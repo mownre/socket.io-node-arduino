@@ -3,8 +3,6 @@ var app = angular
         'ui.router'
     ]);
 
-var socket = io.connect('http://localhost');
-
 app.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
 
     $urlRouterProvider.otherwise('/');
@@ -29,11 +27,58 @@ app.config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
     // $locationProvider.html5Mode(true);
 });
 
-app.controller('SistemaController', function ($scope) {
 
-    socket.on('mensagem', function(data) {
-        $scope.values = data;
-        console.log($scope.values);
+var socket = io.connect('http://localhost:8080');
+console.log("Tentando conexão");
+
+
+app.controller('SistemaController', function ($scope) {
+    var salas = [];
+    salas.push({
+        numSala: 8,
+        medicoes: {
+            temperatura: 23,
+            umidade: 77,
+            presenca: 1,
+            lum: 233
+        }
+    });
+
+    socket.on('quadro', function (data) {
+        var contem = false;
+        for(var i = 0; i < salas.length; i++) {
+            if(salas[i].numSala == data.numSala) {
+                contem = true;
+            }
+        }
+        
+
+        if (!contem) { //Se essa sala ainda não tiver sido registrada...
+            salas.push({
+                numSala: data.numSala, //Registre-a sem valores em suas medicoes
+                medicoes: {
+                    temperatura: null,
+                    umidade: null,
+                    presenca: null,
+                    lum: null
+                }
+            });
+        }
+        
+        var resultado = salas.filter(sala => {
+            return sala.numSala === data.numSala;
+        });
+
+        resultado[0].medicoes[data.sensor] = data.medicao;
+
+        salas.forEach(sala => {
+            if(sala.numSala == resultado.numSala) {
+                salas[salas.indexOf(sala)] = resultado;
+            }
+        });
+
+
+        $scope.salas = salas;
         $scope.$apply();
     });
 

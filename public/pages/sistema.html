@@ -1,5 +1,5 @@
 <div class="row">
-    <h4 class="display-4">Arduino me comunica: </h4>
+    <h4 class="display-4">Pic me comunica: </h4>
 </div>
 
 <table class="table">
@@ -14,12 +14,12 @@
     </thead>
 
     <tbody>
-        <tr>
-            <td>{{values.id}}</td>
-            <td>{{values.temperatura}} °C</td>
-            <td>{{values.umidade}} %</td>
-            <td>{{values.movimentacao}}</td>
-            <td>{{values.luminosidade}}</td>
+        <tr ng-repeat="sala in salas">
+            <td>{{sala.numSala}}</td>
+            <td>{{sala.medicoes.temperatura}} °C</td>
+            <td>{{sala.medicoes.umidade}} %</td>
+            <td>{{sala.medicoes.presenca}}</td>
+            <td>{{sala.medicoes.luminosidade}}</td>
         </tr>
     </tbody>
 </table>

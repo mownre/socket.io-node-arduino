@@ -21,7 +21,7 @@ exports.traduzirQuadro = function(data) {
 
     var idSala = parseInt(string1[2], 16);;
     var tipoDeSensor = definirTipoDeSensor(string1[3]);
-    var valorMedido = definirValorMedido(string1[4]);//parseInt(string1[4], 16);
+    var valorMedido = parseInt(string1[4], 16);
 
     var quadro = {
         numSala: idSala,
@@ -35,13 +35,13 @@ exports.traduzirQuadro = function(data) {
 var definirTipoDeSensor = function(tipoSensor) {
     switch(tipoSensor){
         case SENSOR_TEMPERATURA:
-            return "Temperatura";
+            return "temperatura";
         case SENSOR_LUMINOSIDADE:
-            return "Luminosidade";
+            return "luminosidade";
         case SENSOR_PRESENCA:
-            return "Presenca";
+            return "presenca";
         case SENSOR_UMIDADE:
-            return "Umidade";
+            return "umidade";
         default:
             return null;
     }

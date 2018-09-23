@@ -1,0 +1,129 @@
+//#include <exemplo1.h>
+#include <18f4550.h>
+
+
+#fuses NOMCLR INTRC_IO
+#use delay(clock = 4000000)
+#use rs232(uart1, baud = 9600)                // Initialize UART module
+#include <string.h>
+#include <stdlib.h>
+
+#define INICIO_QUADRO 0x7E
+#define FIM_QUADRO 0x2A
+
+#define KEAP_ALIVE 0x40
+#define SENSOR_TEMPERATURA 0x01
+#define SENSOR_LUMINOSIDADE 0x02
+#define SENSOR_PRESENCA 0x03
+#define SENSOR_UMIDADE 0x09
+
+#define endereco_fixo 0x01
+#define endereco_sala_02 0x02
+
+char message[] = "PIC18F4550 microcontroller UART example" ;
+char i, j, textsize;
+
+void lineBreak() {
+   putc(13);
+   putc(10);
+}
+
+void enviar_temperatura_local(){
+   int8 cks;
+   putc(INICIO_QUADRO);
+   putc(0x07);
+   putc(endereco_fixo);
+   putc(SENSOR_TEMPERATURA);
+   int valor = (rand() % 30) + 1;
+   putc(valor);
+   cks = 0xFF - (endereco_fixo + SENSOR_TEMPERATURA + valor);
+   putc(cks);
+   putc(FIM_QUADRO);
+}
+
+void enviar_presenca_local(){
+   int8 cks;
+   putc(INICIO_QUADRO);
+   putc(0x07);
+   putc(endereco_fixo);
+   putc(SENSOR_PRESENCA);
+   int valor = rand() & 1;
+   putc(valor);
+   cks = 0xFF - (endereco_fixo + SENSOR_PRESENCA + valor);
+   putc(cks);
+   putc(FIM_QUADRO);
+}
+
+
+void enviar_umidade_local(){
+   int8 cks;
+   putc(INICIO_QUADRO);
+   putc(0x07);
+   putc(endereco_fixo);
+   putc(SENSOR_UMIDADE);
+   int valor = (rand() % 50) + 50;
+   putc(valor);
+   cks = 0xFF - (endereco_fixo + SENSOR_UMIDADE + valor);
+   putc(cks);
+   putc(FIM_QUADRO);
+}
+
+void enviar_temperatura_local_02(){
+   int8 cks;
+   putc(INICIO_QUADRO);
+   putc(0x07);
+   putc(endereco_sala_02);
+   putc(SENSOR_TEMPERATURA);
+   int valor = (rand() % 30) + 1;
+   putc(valor);
+   cks = 0xFF - (endereco_sala_02 + SENSOR_TEMPERATURA + valor);
+   putc(cks);
+   putc(FIM_QUADRO);
+}
+
+void enviar_presenca_local_02(){
+   int8 cks;
+   putc(INICIO_QUADRO);
+   putc(0x07);
+   putc(endereco_sala_02);
+   putc(SENSOR_PRESENCA);
+   int valor = rand() & 1;
+   putc(valor);
+   cks = 0xFF - (endereco_sala_02 + SENSOR_PRESENCA + valor);
+   putc(cks);
+   putc(FIM_QUADRO);
+}
+
+
+void enviar_umidade_local_02(){
+   int8 cks;
+   putc(INICIO_QUADRO);
+   putc(0x07);
+   putc(endereco_sala_02);
+   putc(SENSOR_UMIDADE);
+   int valor = (rand() % 50) + 50;
+   putc(valor);
+   cks = 0xFF - (endereco_sala_02 + SENSOR_UMIDADE + valor);
+   putc(cks);
+   putc(FIM_QUADRO);
+}
+
+
+void main(){
+  setup_oscillator(OSC_4MHZ);
+  
+    
+  while(TRUE){
+    lineBreak();
+    enviar_temperatura_local();
+    
+    lineBreak();
+    enviar_presenca_local();
+    
+    lineBreak();
+    enviar_umidade_local();
+    
+    delay_ms(1500);
+  }
+}
+
