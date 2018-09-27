@@ -1,13 +1,13 @@
-var express = require('express');
 var socket = require('socket.io');
 var bodyParser = require('body-parser');
 var Tradutor = require('./util/Tradutor');
 
+
+
+var express = require('express');
 var app = express();
-
-
 app.use(express.static('public'));
-app.use(express.static('public'));
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false}));
 

@@ -19,6 +19,6 @@ router.post('/register', async function(req, res) {
     } catch (err){
         return res.status(400).send({error: 'Registro falhou'});
     }
-})
+});
 
 module.exports = app => app.use('/auth', router);
