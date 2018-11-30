@@ -12,6 +12,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false}));
 
 require('./controllers/authController')(app);
+require('./controllers/userController')(app);
 
 var server = app.listen(8080, function() {
     console.log("Servidor criado!");
@@ -22,13 +23,13 @@ var io = socket(server);
 //Configuração do leitor da porta serial 
 var SerialPort = require('serialport');
 
-var port = new SerialPort("COM2", {
+var port = new SerialPort("COM9", {
     baudRate: 9600
 });
 
 const Readline = require('@serialport/parser-readline')
 const parser = port.pipe(new Readline({
-    delimiter: '\r\n'
+    delimiter: '*'
 }));
 
 
@@ -37,6 +38,7 @@ io.on('connection', function () {
 });
 
 parser.on('data', function (data) {
+    console.log(data);
     var quadroFinal = Tradutor.traduzirQuadro(data);
     console.log(quadroFinal);
 

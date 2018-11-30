@@ -34,7 +34,7 @@ console.log("Tentando conexão");
 
 app.controller('SistemaController', function ($scope) {
     var salas = [];
-    salas.push({
+   /*  salas.push({
         numSala: 8,
         medicoes: {
             temperatura: 23,
@@ -42,9 +42,10 @@ app.controller('SistemaController', function ($scope) {
             presenca: 1,
             lum: 233
         }
-    });
+    }); */
 
     socket.on('quadro', function (data) {
+        
         var contem = false;
         for(var i = 0; i < salas.length; i++) {
             if(salas[i].numSala == data.numSala) {
