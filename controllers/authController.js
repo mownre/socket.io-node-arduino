@@ -34,7 +34,7 @@ router.post('/autenticate', async function(req, res) {
             return res.status(400).send({error: "Usuario não encontrado"});
         }
 
-        if(!await bcrypt.compare(senha, user.senha)) {,
+        if(!await bcrypt.compare(senha, user.senha)) {
             return res.status(400).send({error: "Senha inválida"});
         }
         return res.send({user}).status(200);

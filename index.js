@@ -11,8 +11,8 @@ app.use(express.static('public'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false}));
 
-require('./controllers/authController')(app);
-require('./controllers/userController')(app);
+//require('./controllers/authController')(app);
+//require('./controllers/userController')(app);
 
 var server = app.listen(8080, function() {
     console.log("Servidor criado!");
@@ -29,7 +29,7 @@ var port = new SerialPort("COM9", {
 
 const Readline = require('@serialport/parser-readline')
 const parser = port.pipe(new Readline({
-    delimiter: '*'
+    delimiter: String.fromCharCode(0x2A)
 }));
 
 
@@ -38,10 +38,12 @@ io.on('connection', function () {
 });
 
 parser.on('data', function (data) {
-    console.log(data);
+    //console.log(data);
     var quadroFinal = Tradutor.traduzirQuadro(data);
-    console.log(quadroFinal);
+    //var quadro = Buffer.from(data, 'utf-8').toString('hex');
+    //console.log(quadro);
+    //console.log(quadroFinal);
 
-    io.sockets.emit('quadro', quadroFinal); 
+    //io.sockets.emit('quadro', quadroFinal); 
 
 });

@@ -13,11 +13,14 @@ exports.traduzirQuadro = function(data) {
     var string1 = []
     
     var quadro = Buffer.from(data, 'utf-8').toString('hex');
+    //console.log(quadro);
     for(var i = 0; i < quadro.length; i++) {
-        if(i % 2 == 1) {
+        if(i % 2 == 1 && (quadro[i] != String.fromCharCode(0x0D) && quadro[i] != String.fromCharCode(0x0A))) {
             string1.push(quadro[i - 1] + quadro[i]);
         }
     }
+
+    console.log(string1);
 
     var idSala = parseInt(string1[2], 16);;
     var tipoDeSensor = definirTipoDeSensor(string1[3]);
